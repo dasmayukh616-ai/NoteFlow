@@ -1,0 +1,26 @@
+[workspace]
+members = [
+  "apps/web-leptos",
+  "apps/desktop-tauri",
+  "crates/noteflow-ui",
+  "crates/noteflow-types",
+  "crates/noteflow-client",
+]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+version = "0.1.0"
+license = "UNLICENSED"
+publish = false
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+async-trait = "0.1"
+url = "2"
+leptos = { version = "0.8", features = ["csr"] }
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+tauri = { version = "2" }
+tauri-build = { version = "2" }

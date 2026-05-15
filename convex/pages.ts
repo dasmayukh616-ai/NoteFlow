@@ -42,6 +42,31 @@ export const list = query({
   },
 });
 
+// Get all workspaces for the authenticated user
+export const listWorkspaces = query({
+  args: {},
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthenticated call to api.pages.listWorkspaces");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) {
+      return [];
+    }
+
+    return await ctx.db
+      .query("workspaces")
+      .withIndex("by_user", (q) => q.eq("userId", user._id))
+      .take(100);
+  },
+});
+
 // Create a new page
 export const create = mutation({
   args: {

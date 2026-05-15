@@ -1,0 +1,17 @@
+[package]
+name = "web-leptos"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+noteflow-client = { path = "../../crates/noteflow-client" }
+noteflow-types = { path = "../../crates/noteflow-types" }
+noteflow-ui = { path = "../../crates/noteflow-ui" }
+leptos.workspace = true
+wasm-bindgen.workspace = true
+console_error_panic_hook.workspace = true

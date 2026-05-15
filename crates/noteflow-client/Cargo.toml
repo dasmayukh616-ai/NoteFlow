@@ -1,0 +1,21 @@
+[package]
+name = "noteflow-client"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+async-trait.workspace = true
+noteflow-types = { path = "../noteflow-types" }
+thiserror.workspace = true
+url.workspace = true
+serde.workspace = true
+serde_json = "1"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+gloo-net = { version = "0.6", features = ["http", "json"] }
+web-sys = { version = "0.3", features = ["RequestCredentials"] }

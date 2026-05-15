@@ -1,0 +1,16 @@
+[package]
+name = "desktop-tauri"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+noteflow-client = { path = "../../crates/noteflow-client" }
+noteflow-types = { path = "../../crates/noteflow-types" }
+noteflow-ui = { path = "../../crates/noteflow-ui" }
+serde.workspace = true
+tauri.workspace = true
+
+[build-dependencies]
+tauri-build.workspace = true

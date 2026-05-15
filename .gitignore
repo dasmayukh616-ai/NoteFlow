@@ -19,10 +19,19 @@
 
 # production
 /build
+/target
 
 # misc
 .DS_Store
 *.pem
+Thumbs.db
+Desktop.ini
+
+# Visual Studio / VS Copilot workspace cache
+.vs/
+
+# Local design references (not used in build)
+figma-home.png
 
 # debug
 npm-debug.log*
@@ -52,3 +61,4 @@ skills-lock.json
 
 # Build logs
 tsc.log
+implementation_plan.md

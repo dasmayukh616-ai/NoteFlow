@@ -20,6 +20,21 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Rust Frontend Parity Setup (Windows)
+
+The repo now includes a Rust workspace for frontend parity work (`apps/*`, `crates/*`).
+
+One-time setup:
+
+1. Install Rust (`cargo`, `rustc`) from [https://rustup.rs](https://rustup.rs).
+2. Install Visual Studio Build Tools with C++ tools (`Microsoft.VisualStudio.Workload.VCTools`) so `link.exe` is available.
+
+Verify setup from the repo root:
+
+```bash
+cargo check --workspace
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
