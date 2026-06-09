@@ -38,9 +38,9 @@ export async function getParityAuthContext(
 }
 
 export async function loadPages(ctx: ParityAuthContext): Promise<PageDto[]> {
-  const pages = (await ctx.convex.query(api.pages.list, {})) as any[];
+  const pages = await ctx.convex.query(api.pages.list, {});
 
-  return pages.map((page: any) => ({
+  return pages.map((page) => ({
     id: page._id,
     workspaceId: page.workspaceId,
     title: page.title,
@@ -56,9 +56,9 @@ export async function loadPages(ctx: ParityAuthContext): Promise<PageDto[]> {
 export async function loadWorkspaces(
   ctx: ParityAuthContext,
 ): Promise<WorkspaceDto[]> {
-  const workspaces = (await ctx.convex.query(api.pages.listWorkspaces, {})) as any[];
+  const workspaces = await ctx.convex.query(api.pages.listWorkspaces, {});
 
-  return workspaces.map((workspace: any) => ({
+  return workspaces.map((workspace) => ({
     id: workspace._id,
     name: workspace.name,
   }));
@@ -112,11 +112,11 @@ export async function loadCalendarEvents(
   ctx: ParityAuthContext,
   maxResults = 15,
 ): Promise<CalendarEventDto[]> {
-  const events = (await ctx.convex.action(api.calendar.fetchEvents, {
+  const events = await ctx.convex.action(api.calendar.fetchEvents, {
     maxResults,
-  })) as any[];
+  });
 
-  return events.map((event: any) => ({
+  return events.map((event) => ({
     id: event.id,
     title: event.summary ?? "(No title)",
     startIso: event.start ?? "",
@@ -125,7 +125,7 @@ export async function loadCalendarEvents(
 }
 
 export async function loadUsage(ctx: ParityAuthContext): Promise<UsageDto> {
-  const usage = (await ctx.convex.query(api.users.myUsage, {})) as any;
+  const usage = await ctx.convex.query(api.users.myUsage, {});
 
   return {
     period: "day",

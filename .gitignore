@@ -20,6 +20,7 @@
 # production
 /build
 /target
+/apps/web-leptos/dist/
 
 # misc
 .DS_Store
@@ -30,6 +31,9 @@ Desktop.ini
 # Visual Studio / VS Copilot workspace cache
 .vs/
 
+# JetBrains IDE project files
+.idea/
+
 # Local design references (not used in build)
 figma-home.png
 
@@ -38,6 +42,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+.api-axum*.log
+.next-dev*.log
+.web-leptos*.log
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -62,3 +69,5 @@ skills-lock.json
 # Build logs
 tsc.log
 implementation_plan.md
+STATE.md
+

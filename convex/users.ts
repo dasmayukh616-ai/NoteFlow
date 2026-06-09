@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalQuery, internalMutation, query } from "./_generated/server";
+import { internalMutation, query } from "./_generated/server";
 
 // Hardcoded limits based on generic Groq free tier parameters
 const RATE_LIMITS = {

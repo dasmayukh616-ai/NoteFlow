@@ -28,7 +28,7 @@ fn shell_info(state: State<'_, ShellState>) -> ShellInfo {
 
 fn main() {
     let api_base_url =
-        std::env::var("NOTEFLOW_API_BASE_URL").unwrap_or_else(|_| "http://localhost:3000".into());
+        std::env::var("NOTEFLOW_API_BASE_URL").unwrap_or_else(|_| "http://127.0.0.1:3317".into());
     let shell_state = ShellState {
         api_base_url,
         parity_api_prefix: "/api/v1".into(),

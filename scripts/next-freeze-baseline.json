@@ -1,0 +1,32 @@
+{
+  "description": "Hash-pinned baseline for intentional legacy Next.js surface drift during the Rust rewrite freeze. Refresh only when accepting a new legacy baseline.",
+  "entries": {
+    "src/app/api/calendar/callback/route.ts": "sha256:37746408d24d4516735062519819a6f492831b42312451f32b3ea245bade04cb",
+    "src/app/api/generate/route.ts": "sha256:a4817fab6096a650d8d0e74a880880fbfe48cb3ffeeaf98f14a6b7807a06073b",
+    "src/app/dashboard/calendar/loading.tsx": "sha256:05a86911d1bd3981afd47a45919051bcae809302f2fa55ff23a18d21aee890b6",
+    "src/app/dashboard/calendar/page.tsx": "sha256:2a16d53ec2b35cb19fa2da1c3768d251144f65d8a001765d6524863a4ebfcec5",
+    "src/app/dashboard/layout.tsx": "sha256:d73c71e24f58f5cd2442f98336bf0ea5b1a3985b7d75d6397b17f4cba40d2c78",
+    "src/app/dashboard/loading.tsx": "sha256:d885f8e4a23ed81f5bb220d62d2339d0be124d058400126b1de523f3bef7c8f6",
+    "src/app/dashboard/notes/[noteId]/page.tsx": "sha256:a43f951e917a617773e2240976ef338376406ae181ae4dfaf5accfc83b743350",
+    "src/app/dashboard/page.tsx": "sha256:840b667827b7bb0282d94a3d5f1ead8959432102948471f9523efeae9f24824d",
+    "src/app/dashboard/settings/loading.tsx": "sha256:2405aa2c3a51920c049c37700d74cbb6e3a5d1af07e88aff80072de08c522ac5",
+    "src/app/dashboard/tasks/page.tsx": "sha256:9389bb4483d0bff4f3a9fddc32f201e4afa222779d81f7f6f1c8c452d93fb0c6",
+    "src/app/globals.css": "sha256:f0752af84fdac8a0c89ebc991609a961c44080ec40d2d9ca19c36466c9189ea7",
+    "src/app/layout.tsx": "sha256:7ddb9ea38283f970167b70ca1a0fc26fa80762e056fb60bda314418ba677e6a3",
+    "src/app/loading-demo/page.tsx": "sha256:c3305159ee4cfab4f2dda79a02d49a232d05c128ce29bc4a08e01be2743e8e4e",
+    "src/app/page.tsx": "sha256:f33b28d22ab91aa045f381142078417488a9a3a4fc976791bdac072a4a29c5ec",
+    "src/components/ai-sidebar.tsx": "sha256:534e65e2b3082f0061be0cdbe881974dbbd2beb40e71b7a104d8dd54532195b5",
+    "src/components/app-sidebar.tsx": "sha256:2ed9679cecfeddbc90ede9a3e7a1ac7e16db1eb28754812a1d7e6c739e69d08e",
+    "src/components/dashboard/home-views-section.tsx": "sha256:8c6650ebb76f14f28504a2d551031922f1eb196b2b41d22e7dc2ae1ee17a81cb",
+    "src/components/dashboard/recently-visited-section.tsx": "sha256:d1ad75c3ab8a456ecb7c471ee7d87ac73c13b9e70c287530df269b0dfe26f0d0",
+    "src/components/dashboard/section-title.tsx": "sha256:c064e51d3d17ebfcb3be195a3fa7e33eb0f780336aacc87e8a12f25b74297812",
+    "src/components/dashboard/upcoming-events-section.tsx": "sha256:08d7147059831f73daa735e47590eb279636e50f669d83fb9fc0e627c2010509",
+    "src/components/editor.tsx": "sha256:1ad217d6a33589bb470509cb431d06d27d82754dc0344edeffa659cecc5c4eb4",
+    "src/components/global-command.tsx": "sha256:9385398352d1192e55baa56990cbc8524562719d07b8242cf7ff803c97079c16",
+    "src/components/landing-page.tsx": "sha256:ec83e8fa3b0095203907a1448218fd065ce1f292412f693c490d04132ec7e89d",
+    "src/components/loading-skeletons.tsx": "sha256:185c9622b22554f3cbebc2073b7aade4887eb677a9cc0fbd60f81ac56d77678d",
+    "src/components/providers/theme-provider.tsx": "sha256:894a7cf7c72de99bc709efe072152bb34d62f3f83ab611a256eec7e4900600aa",
+    "src/components/slash-command.tsx": "sha256:67c4119d9e0d00a708fa548fbcc23bb4ede9751f5b4fab8706ddc07642822a5f",
+    "src/components/ui/skeleton.tsx": "sha256:1b350cba222c2b8fbded16f9f23ac192a1e410acd5cc0ca4e87b664c3832877a"
+  }
+}

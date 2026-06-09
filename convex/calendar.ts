@@ -4,6 +4,7 @@ import { v } from "convex/values";
 import { action, internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { google } from "googleapis";
+import type { Doc, Id } from "./_generated/dataModel";
 
 // --- Fetch upcoming calendar events ---
 export const fetchEvents = action({
@@ -15,7 +16,7 @@ export const fetchEvents = action({
     if (!identity) throw new Error("Unauthenticated");
 
     // Get the user's stored calendar integration
-    const integration: any = await ctx.runQuery(
+    const integration: Doc<"calendarIntegrations"> | null = await ctx.runQuery(
       internal.calendarHelpers.getIntegration,
       { tokenIdentifier: identity.tokenIdentifier }
     );
@@ -207,7 +208,7 @@ export const createMeetingNote = action({
     });
 
     // Create the page in Convex
-    const pageId: string = await ctx.runMutation(internal.calendarHelpers.createMeetingPage, {
+    const pageId: Id<"pages"> = await ctx.runMutation(internal.calendarHelpers.createMeetingPage, {
       tokenIdentifier: identity.tokenIdentifier,
       title: `📅 ${args.summary}`,
       content,
@@ -217,7 +218,7 @@ export const createMeetingNote = action({
 
     // --- TWO-WAY SYNC: Push the NoteFlow link to Google Calendar ---
     try {
-      const integration: any = await ctx.runQuery(
+      const integration: Doc<"calendarIntegrations"> | null = await ctx.runQuery(
         internal.calendarHelpers.getIntegration,
         { tokenIdentifier: identity.tokenIdentifier }
       );
@@ -276,13 +277,13 @@ export const createMeetingNote = action({
 export const getCalendarContext = internalAction({
   args: {},
   returns: v.string(),
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     try {
       // Re-use fetchEvents logic but quietly fail if no integration
       const identity = await ctx.auth.getUserIdentity();
       if (!identity) return "";
 
-      const integration: any = await ctx.runQuery(
+      const integration: Doc<"calendarIntegrations"> | null = await ctx.runQuery(
         internal.calendarHelpers.getIntegration,
         { tokenIdentifier: identity.tokenIdentifier }
       );

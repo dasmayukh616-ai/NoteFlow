@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { action } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { Groq } from "groq-sdk";
+import type { ChatCompletionMessageParam } from "groq-sdk/resources/chat/completions";
 
 export const chat = action({
   args: {
@@ -30,13 +31,20 @@ export const chat = action({
 
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-    const response: any = await groq.chat.completions.create({
+    const messages: ChatCompletionMessageParam[] = [
+      { role: "system", content: systemContent },
+      ...args.history.map(
+        (h): ChatCompletionMessageParam => ({
+          role: h.role === "assistant" ? "assistant" : "user",
+          content: h.content,
+        }),
+      ),
+      { role: "user", content: args.message },
+    ];
+
+    const response = await groq.chat.completions.create({
       model: "mixtral-8x7b-32768",
-      messages: [
-        { role: "system", content: systemContent },
-        ...args.history.map(h => ({ role: h.role as any, content: h.content })),
-        { role: "user", content: args.message }
-      ],
+      messages,
     });
 
     return response.choices[0]?.message?.content || "Sorry, I couldn't process that.";

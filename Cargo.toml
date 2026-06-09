@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "apps/api-axum",
   "apps/web-leptos",
   "apps/desktop-tauri",
   "crates/noteflow-ui",

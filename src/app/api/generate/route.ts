@@ -1,4 +1,5 @@
-import { generateText, streamText } from "ai";
+import { streamText } from "ai";
+import type { ModelMessage } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
@@ -22,9 +23,9 @@ export async function POST(req: NextRequest) {
 
     const { prompt, option, command } = await req.json();
 
-    let systemPrompt = "You are an AI writing assistant that continues existing text based on context from prior text. Give more weight/priority to the later characters than the beginning ones. Limit your response to no more than 200 characters, but make sure to construct complete sentences.";
+    const systemPrompt = "You are an AI writing assistant that continues existing text based on context from prior text. Give more weight/priority to the later characters than the beginning ones. Limit your response to no more than 200 characters, but make sure to construct complete sentences.";
     
-    let messages = [
+    const messages: ModelMessage[] = [
       {
         role: "system",
         content: systemPrompt,
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     const result = streamText({
       model: groq("mixtral-8x7b-32768"),
-      messages: messages as any,
+      messages,
     });
 
     return result.toTextStreamResponse();

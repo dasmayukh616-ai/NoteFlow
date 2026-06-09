@@ -1,4 +1,26 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RegisterRequest {
+    pub email: String,
+    pub password: String,
+    #[serde(default)]
+    pub name: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LoginRequest {
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct LogoutResponse {
+    pub signed_out: bool,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -23,17 +45,60 @@ pub struct Page {
     #[serde(alias = "workspace_id")]
     pub workspace_id: String,
     pub title: String,
-    pub content: Option<String>,
+    pub content: Option<Value>,
     #[serde(default)]
     pub icon: Option<String>,
     #[serde(default)]
     pub cover: Option<String>,
+    #[serde(default)]
+    pub is_favorite: bool,
+    #[serde(default)]
+    pub is_archived: bool,
     #[serde(default)]
     pub calendar_sync_enabled: bool,
     #[serde(default)]
     pub calendar_event_id: Option<String>,
     #[serde(default)]
     pub created_at: Option<u64>,
+    #[serde(default)]
+    pub updated_at: Option<u64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CreatePageRequest {
+    pub workspace_id: String,
+    #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
+    pub content: Option<Value>,
+    #[serde(default)]
+    pub icon: Option<String>,
+    #[serde(default)]
+    pub cover: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UpdatePageRequest {
+    #[serde(default)]
+    pub title: Option<String>,
+    #[serde(default)]
+    pub content: Option<Value>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UpdatePageCalendarRequest {
+    pub calendar_sync_enabled: bool,
+    #[serde(default)]
+    pub calendar_event_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DeletePageResponse {
+    pub deleted: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

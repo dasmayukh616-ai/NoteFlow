@@ -6,7 +6,8 @@ import { api } from "../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, User, Send, X, Braces, Sparkles } from "lucide-react";
+import { AiResponseSkeleton } from "@/components/loading-skeletons";
+import { Bot, Send, X, Braces, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
@@ -27,6 +28,13 @@ export function AISidebar() {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    const openSidebar = () => setIsOpen(true);
+
+    window.addEventListener("noteflow:open-ai", openSidebar);
+    return () => window.removeEventListener("noteflow:open-ai", openSidebar);
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -93,21 +101,7 @@ export function AISidebar() {
                   </div>
                 </div>
               ))}
-              {isLoading && (
-                <div className="flex justify-start mb-4">
-                  <div className="bg-secondary p-3 rounded-2xl rounded-tl-none border border-border">
-                    <motion.div 
-                      animate={{ opacity: [0.4, 1, 0.4] }}
-                      transition={{ repeat: Infinity, duration: 1.5 }}
-                      className="flex gap-1"
-                    >
-                      <div className="w-1.5 h-1.5 bg-foreground/50 rounded-full" />
-                      <div className="w-1.5 h-1.5 bg-foreground/50 rounded-full" />
-                      <div className="w-1.5 h-1.5 bg-foreground/50 rounded-full" />
-                    </motion.div>
-                  </div>
-                </div>
-              )}
+              {isLoading && <AiResponseSkeleton />}
             </ScrollArea>
 
             <div className="p-4 border-t border-border bg-background">

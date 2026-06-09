@@ -44,7 +44,7 @@ export const storeIntegration = internalMutation({
   },
   handler: async (ctx, args) => {
     // Find or create the user
-    let user = await ctx.db
+    const user = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.tokenIdentifier))
       .first();

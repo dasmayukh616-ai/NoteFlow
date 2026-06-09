@@ -7,7 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -129,6 +129,223 @@
   }
 }
 
+.emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-shimmer::after {
+  animation: skeleton-shimmer 1.45s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--foreground) 10%, transparent),
+    transparent
+  );
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+.noteflow-editor-shell {
+  isolation: isolate;
+  position: relative;
+}
+
+.noteflow-editor {
+  caret-color: #e4e4e7;
+  padding-bottom: 8rem;
+}
+
+.noteflow-editor ::selection {
+  background: rgb(244 244 245 / 0.22);
+  color: #fafafa;
+}
+
+.noteflow-editor p,
+.noteflow-editor h1,
+.noteflow-editor h2,
+.noteflow-editor h3,
+.noteflow-editor ul,
+.noteflow-editor ol,
+.noteflow-editor blockquote,
+.noteflow-editor pre {
+  margin-bottom: 0.65rem;
+}
+
+.noteflow-editor h1 {
+  color: #fafafa;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.06;
+  margin-top: 1.8rem;
+}
+
+.noteflow-editor h2 {
+  color: #f4f4f5;
+  font-size: 1.65rem;
+  font-weight: 760;
+  letter-spacing: 0;
+  line-height: 1.16;
+  margin-top: 1.5rem;
+}
+
+.noteflow-editor h3 {
+  color: #f4f4f5;
+  font-size: 1.25rem;
+  font-weight: 720;
+  letter-spacing: 0;
+  line-height: 1.24;
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .noteflow-editor h1 {
+    font-size: 3rem;
+  }
+
+  .noteflow-editor h2 {
+    font-size: 2rem;
+  }
+}
+
+.noteflow-editor ul,
+.noteflow-editor ol {
+  padding-left: 1.35rem;
+}
+
+.noteflow-editor ul {
+  list-style: disc;
+}
+
+.noteflow-editor ol {
+  list-style: decimal;
+}
+
+.noteflow-editor li {
+  margin: 0.2rem 0;
+  padding-left: 0.15rem;
+}
+
+.noteflow-editor blockquote {
+  background: rgb(255 255 255 / 0.025);
+  border-left: 3px solid #52525b;
+  border-radius: 0.25rem;
+  color: #d4d4d8;
+  margin-left: 0;
+  padding-left: 1rem;
+}
+
+.noteflow-editor pre {
+  background: #101010;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 0.5rem;
+  color: #e4e4e7;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.noteflow-editor code {
+  background: rgb(255 255 255 / 0.07);
+  border-radius: 0.25rem;
+  color: #f4f4f5;
+  font-size: 0.9em;
+  padding: 0.12rem 0.28rem;
+}
+
+.noteflow-editor pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.noteflow-editor hr {
+  border: 0;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
+  margin: 1.25rem 0;
+}
+
+.noteflow-editor mark {
+  border-radius: 0.25rem;
+  color: inherit;
+  padding: 0.05rem 0.18rem;
+}
+
+.noteflow-editor [data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.noteflow-editor [data-type="taskItem"] {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.55rem;
+}
+
+.noteflow-editor [data-type="taskItem"] p {
+  margin-bottom: 0.2rem;
+}
+
+.noteflow-editor [data-type="taskItem"] > label {
+  padding-top: 0.16rem;
+}
+
+.noteflow-editor [data-type="taskItem"] input {
+  accent-color: #71717a;
+  height: 1rem;
+  width: 1rem;
+}
+
+.noteflow-editor .is-empty::before {
+  color: #5f5f68;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.noteflow-editor .ProseMirror-selectednode {
+  border-radius: 0.5rem;
+  outline: 1px solid rgb(255 255 255 / 0.16);
+  outline-offset: 3px;
+}
+
+.noteflow-editor a {
+  text-decoration-thickness: 1px;
+}
+
+.drag-handle {
+  align-items: center;
+  color: #71717a;
+  cursor: grab;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  position: fixed;
+  width: 24px;
+  z-index: 20;
+}
+
+.drag-handle::before {
+  content: "⠿";
+  font-size: 18px;
+  line-height: 1;
+}
+
+.drag-handle.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.drag-handle:hover {
+  color: #d4d4d8;
+}
+
 @layer utilities {
   .animate-blob {
     animation: blob 7s infinite;
@@ -146,4 +363,17 @@
   33% { transform: translate(30px, -50px) scale(1.1); }
   66% { transform: translate(-20px, 20px) scale(0.9); }
   100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer::after {
+    animation: none;
+    display: none;
+  }
 }

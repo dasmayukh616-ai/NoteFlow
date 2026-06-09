@@ -5,6 +5,10 @@ import { useQuery, useAction, useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import {
+  CalendarEventsSkeleton,
+  CalendarPageSkeleton,
+} from "@/components/loading-skeletons";
+import {
   Calendar as CalendarIcon,
   ExternalLink,
   FileText,
@@ -89,6 +93,9 @@ export default function CalendarPage() {
     return new Date(dateStr).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   };
 
+  const isInitialEventsLoad = isLoading && events.length === 0;
+  const isRefreshingEvents = isLoading && events.length > 0;
+
   if (isConnected === false) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] p-8">
@@ -110,11 +117,7 @@ export default function CalendarPage() {
   }
 
   if (isConnected === undefined) {
-    return (
-      <div className="flex items-center justify-center min-h-[80vh]">
-        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <CalendarPageSkeleton />;
   }
 
   return (
@@ -126,8 +129,8 @@ export default function CalendarPage() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={handleFetchEvents} disabled={isLoading} className="rounded-lg">
-            {isLoading ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <RefreshCw className="w-4 h-4 mr-1" />}
-            {events.length === 0 ? "Load Events" : "Refresh"}
+            <RefreshCw className={`w-4 h-4 mr-1 ${isLoading ? "opacity-50" : ""}`} />
+            {isRefreshingEvents ? "Refreshing" : isLoading ? "Loading" : events.length === 0 ? "Load Events" : "Refresh"}
           </Button>
           <Button variant="ghost" size="sm" onClick={handleDisconnect} className="text-red-400 hover:text-red-500 rounded-lg">
             <Unplug className="w-4 h-4 mr-1" />
@@ -143,48 +146,73 @@ export default function CalendarPage() {
         </div>
       )}
 
-      <AnimatePresence>
-        <div className="grid gap-4">
-          {events.map((event, index) => (
+      {isInitialEventsLoad && (
+        <div aria-label="Loading calendar events" role="status">
+          <span className="sr-only">Loading calendar events</span>
+          <CalendarEventsSkeleton />
+        </div>
+      )}
+
+      <div className="relative">
+        <AnimatePresence initial={false}>
+          {isRefreshingEvents && (
             <motion.div
-              key={event.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className="group p-5 rounded-xl border border-border bg-card hover:bg-secondary/30 transition-colors"
+              aria-label="Refreshing calendar events"
+              className="absolute inset-x-0 top-0 z-10 rounded-xl bg-background/80 backdrop-blur-sm"
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              role="status"
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0 space-y-2">
-                  <h3 className="font-semibold text-base truncate">{event.summary}</h3>
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {formatDate(event.start)} · {formatTime(event.start)} – {formatTime(event.end)}
-                    </span>
-                    {event.location && (
-                      <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{event.location}</span>
-                    )}
-                    {event.attendees.length > 0 && (
-                      <span className="flex items-center gap-1"><Users className="w-3 h-3" />{event.attendees.length} attendee{event.attendees.length !== 1 ? "s" : ""}</span>
+              <span className="sr-only">Refreshing calendar events</span>
+              <CalendarEventsSkeleton count={Math.min(Math.max(events.length, 2), 4)} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          <div className={`grid gap-4 transition-opacity ${isRefreshingEvents ? "opacity-35" : ""}`}>
+            {events.map((event, index) => (
+              <motion.div
+                key={event.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="group p-5 rounded-xl border border-border bg-card hover:bg-secondary/30 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0 space-y-2">
+                    <h3 className="font-semibold text-base truncate">{event.summary}</h3>
+                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {formatDate(event.start)} · {formatTime(event.start)} – {formatTime(event.end)}
+                      </span>
+                      {event.location && (
+                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{event.location}</span>
+                      )}
+                      {event.attendees.length > 0 && (
+                        <span className="flex items-center gap-1"><Users className="w-3 h-3" />{event.attendees.length} attendee{event.attendees.length !== 1 ? "s" : ""}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2 shrink-0">
+                    <Button variant="outline" size="sm" onClick={() => handleCreateNote(event)} disabled={creatingNoteFor === event.id} className="rounded-lg text-xs">
+                      {creatingNoteFor === event.id ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <FileText className="w-3 h-3 mr-1" />}
+                      Create Note
+                    </Button>
+                    {event.htmlLink && (
+                      <a href={event.htmlLink} target="_blank" rel="noopener noreferrer">
+                        <Button variant="ghost" size="sm" className="rounded-lg text-xs"><ExternalLink className="w-3 h-3" /></Button>
+                      </a>
                     )}
                   </div>
                 </div>
-                <div className="flex gap-2 shrink-0">
-                  <Button variant="outline" size="sm" onClick={() => handleCreateNote(event)} disabled={creatingNoteFor === event.id} className="rounded-lg text-xs">
-                    {creatingNoteFor === event.id ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <FileText className="w-3 h-3 mr-1" />}
-                    Create Note
-                  </Button>
-                  {event.htmlLink && (
-                    <a href={event.htmlLink} target="_blank" rel="noopener noreferrer">
-                      <Button variant="ghost" size="sm" className="rounded-lg text-xs"><ExternalLink className="w-3 h-3" /></Button>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </AnimatePresence>
+              </motion.div>
+            ))}
+          </div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
